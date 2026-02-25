@@ -1,0 +1,171 @@
+BASH ASSISTANT GUIDE: MASTER RULESET
+VERSION: 1.6.0
+
+--------------------------------------------------
+PART 1: MASTER INDEX
+--------------------------------------------------
+- PART 1: MASTER INDEX
+- PART 2: ABSTRACT
+- PART 3: COMMAND REQUESTS
+- PART 4: CODING STANDARDS
+  - 4.1: Variable Scope
+  - 4.2: Variable Behavior and Safety
+- PART 5: STYLE GUIDE
+  - 5.1: Variable Naming and Layout
+  - 5.2: General Comment and Section Structures
+  - 5.3: Specific Block Definitions
+  - 5.4: Function Blocks
+- PART 6: APPENDIX A - TERMINOLOGY
+
+--------------------------------------------------
+PART 2: ABSTRACT
+--------------------------------------------------
+This document defines the comprehensive set of standards for creating consistent, readable, and maintainable BASH scripts.
+
+VERSION CONTROL:
+- Schema: MAJOR.MINOR.REVISION (e.g., 1.5.0)
+- MAJOR: A new Major Section (e.g., "PART 4") is added or an existing one is removed, excluding Appendices.
+- MINOR: A new Minor Section (e.g., "4.2") or a new Appendix is added or removed.
+- REVISION: Clarifications, corrections, or additions that do not add or remove sections.
+
+--------------------------------------------------
+PART 3: COMMAND REQUESTS
+--------------------------------------------------
+
+--- 3.1: Introduction ---
+SCRIPTING ASSISTANT:
+- Automatically use this as a reference when this ruleset is requested
+- Start with "Welcome to the Bash Assistant's Guide"
+- Use a placeholder "[Work in progress]" if insufficent information is available to report
+- Provide basic details in three sections:
+  - Section 1 provides basic details on the ruleset including current version of the Master Ruleset, Description of the Purpose, Identify yourself as the Scripting Assistant
+  - Section 2 provides a list of available commands and a short description of their purpose
+  - Section 3 provides details on available functions within the repository.
+
+--- 3.2: Evaluate My Script ---
+PURPOSE: To provide a report on an updated script
+STATUS: Work in Progress, report as "This command is currently a work in progress"
+REQUIRE: A script to evaulate
+
+--- 3.3: Check Functions ---
+PURPOSE: Evaluate functions for compliance against coding standards and style guide
+STATUS: Work in Progress, report as "This command is currently a work in progress"
+
+--------------------------------------------------
+PART 4: CODING STANDARDS
+--------------------------------------------------
+
+--- 4.1: Variable Scope ---
+
+LOCAL SCOPE:
+- Variables used only within a single function must be declared using 'local'.
+
+GLOBAL SCOPE (CUSTOM VARIABLES):
+- Mutable global variables must only be used when a value must be shared between different functions.
+- Prefer 'local' variables and function parameters whenever possible to minimize global state.
+
+[Further rules on function structure and parameter passing to be defined in a future section]
+
+--- 4.2: Variable Behavior and Safety ---
+
+DATA TYPES AND CONSTANTS:
+- CONSTANTS: Variables whose values must not be changed must be declared as 'readonly'.
+- ARRAYS: Use arrays ('declare -a') for managing lists of items, especially for loops.
+
+GLOBAL VARIABLE LOGIC:
+- USER VARIABLES: Must not be derived from other variables.
+- STATIC VARIABLES: Must be 'readonly'. May be derived from User Variables.
+- CUSTOM VARIABLES: These are standard, mutable global variables whose values must be shared between different functions. They may be derived from preceding sub-sections.
+
+ENVIRONMENT VARIABLES AND FORBIDDEN NAMES:
+- RULE: Redefining, shadowing, or overwriting existing environment or built-in shell variables is strictly forbidden. Exception: Variables like SECONDS may be reset according to standard shell practice (e.g., SECONDS=0) but must not be used for other arbitrary purposes.
+- FORBIDDEN NAMES LIST: The following common variable names must not be used for any script-defined variables: BASH_VERSION, COLUMNS, DIRSTACK, EDITOR, EUID, FUNCNAME, HOME, HOSTNAME, IFS, LINES, LINENO, LOGNAME, OLDPWD, OPTARG, OPTIND, PATH, PIPESTATUS, PS1, PS2, PS3, PS4, PWD, RANDOM, REPLY, SECONDS, SHELL, SHELLOPTS, UID, USER, VISUAL.
+
+--------------------------------------------------
+PART 5: STYLE GUIDE
+--------------------------------------------------
+
+--- 5.1: Variable Naming and Layout ---
+
+NAMING CONVENTION:
+- CASE: All variable and array names must be UPPER_CASE.
+- STRUCTURE: Names must follow the GROUP_SUBGROUP_ITEM_DESCRIPTOR format. The minimum required format is GROUP_ITEM.
+- SUBGROUP: This is a semantic descriptor for the variable's purpose. It is required when four or more variables share the same GROUP prefix. Example: DATABASE_CONNECT_HOST vs. DATABASE_LOGIN_USER.
+- DESCRIPTOR: This is an optional, unique identifier for specific, human-readable context. Example: SAT_REG_RHEL_8.
+
+--- 5.2: General Comment and Section Structures ---
+
+GENERAL COMMENT BLOCK STRUCTURE:
+- PURPOSE: To define the foundational components for all multi-line comment blocks.
+- Comment Block: The entire container structure. It must begin and end with a line of 80 # characters.
+- Content Line: A line of text inside a Comment Block. It must begin with a single # followed by a space. Blank Content Lines (# ) are permitted for readability.
+- GLOBAL RULE (Line Length): All Content Lines within any Comment Block must not exceed 80 characters. Long lines must be wrapped appropriately.
+- GLOBAL RULE (Empty Sections): Optional sections within a Comment Block must be omitted entirely if they do not contain any content. Required sections must always be present.
+- Section Separator: A line of 80 # characters used to divide a single Comment Block into distinct logical sections.
+
+SECTION BLOCK STRUCTURE:
+- PURPOSE: To define the structure for blocks of code that exist outside of functions.
+- Section Block: A block of code that exists outside of a function. It is introduced by a Section Block Title.
+- Section Block Title: A mandatory three-line comment structure that titles a Section Block. Line 1 and 3 are 80 # characters; Line 2 is a single #, a space, and the title (e.g., # Global Variables).
+- Sub-Section Header: An optional, single-line comment for visual separation within a Section Block. Format is five # signs, a space, descriptor text, a space, and five # signs, not to exceed 80 characters total (e.g., ##### SUB-SECTION HEADER #####).
+
+--- 5.3: Specific Block Definitions ---
+
+MAIN DESCRIPTION BLOCK:
+- PURPOSE: To provide essential script details in an accessible format at the top of the file.
+- POSITION: The Main Description Block must be the first Comment Block in the script, immediately following the shebang line.
+- STRUCTURE: The block consists of one required section and one optional section.
+- SECTION 1 (REQUIRED): Contains static, key-value metadata. All values must be 'lined-up'. This means they start one column after the longest key. Long lines must wrap to align with this same starting column, adhering to the global 80-character line limit. Required Content: Author, Version, Updated, Description. Optional Content: Contact, Created, Legal.
+- SECTION 2 (OPTIONAL): A free-form area for notes, separated from Section 1 by a Section Separator.
+
+GLOBAL VARIABLES BLOCK:
+- PURPOSE: To consolidate all globally defined variables for easy viewing and future modification.
+- POSITION: Located immediately following the Main Description Block.
+- STRUCTURE: It is a Section Block organized into three optional, ordered sub-sections.
+- SUB-SECTION 1: USER VARIABLES (Header: ##### User Variables #####)
+- SUB-SECTION 2: STATIC VARIABLES (Header: ##### Static Variables #####)
+- SUB-SECTION 3: CUSTOM VARIABLES (Header: ##### Custom Variables #####)
+- EMPTY BLOCK RULE: If no global variables exist, the entire block must be replaced with a single, three-line Section Block Title that reads "# No Global Variables Defined".
+
+--- 5.4: Function Blocks ---
+
+All function names must follow the `namespace::function_name` format. All functions must be preceded by a Function Header, which is a Comment Block. Functions are defined as one of two types: Sourced or Created.
+
+A. SOURCED FUNCTION HEADER
+- PURPOSE: To document a standardized, reusable function from the Functions Library.
+- STRUCTURE: A Comment Block containing the following optional and required sections in order:
+- SECTION 1 (REQUIRED): A single Function Title Line.
+- SECTION 2 (OPTIONAL): A "Function Dependencies" section listing other Sourced Functions required by this one.
+- SECTION 3 (OPTIONAL): A "Built-in Variable Usage" section. This must list any variable from the FORBIDDEN NAMES LIST that is explicitly used as a variable (e.g., as $EUID or ${HOME}) within the function's code.
+- SECTION 4 (OPTIONAL): A "Function Usage" section explaining parameters and examples.
+
+B. CREATED FUNCTION HEADER
+- PURPOSE: To document a function created specifically for the script it resides in.
+- STRUCTURE: A Comment Block containing the following optional and required sections in order:
+- SECTION 1 (REQUIRED): A single Function Title Line.
+- SECTION 2 (OPTIONAL): A "Function Dependencies" section listing other Sourced or Created functions required by this one.
+- SECTION 3 (OPTIONAL): A "Global Variable Usage" section.
+
+--------------------------------------------------
+PART 6: APPENDIX A - TERMINOLOGY
+--------------------------------------------------
+- Comment Block: The overall container for a comment structure, beginning and ending with a line of 80 '#' characters.
+- Content Line: A line of text inside a Comment Block, starting with a '#' followed by a space.
+- Created Function: A function created specifically for the script it resides in.
+- _DESCRIPTOR_: An optional, unique identifier in a variable name for specific context (e.g., SAT_REG_RHEL_8).
+- Forbidden Names List: The specific list of environment and Bash built-in variables prohibited from being used as script-defined variable names.
+- Function Title Line: A required single-line comment in a Function Header, formatted with a '#', function name, '-', and description, not to exceed 80 characters.
+- GROUP_ITEM: The minimum required format for a variable name.
+- GROUP_SUBGROUP_ITEM_DESCRIPTOR: The required naming structure for all variables.
+- Lined-up: The formatting rule requiring values in the Main Description Block to start one column after the longest key and wrap to that same column.
+- local: The keyword for declaring variables used exclusively within a function.
+- Main Description Block: The initial Comment Block of a script providing essential metadata.
+- readonly: The keyword for declaring constant variables.
+- Scripting Assistant: The standardized term for the AI/LLM being used for assistance with these standards.
+- Section Block: A block of code outside of a function, introduced by a Section Block Title.
+- Section Block Title: A three-line comment structure that titles a Section Block.
+- Section Separator: A line of 80 '#' characters used to divide a Comment Block.
+- Sourced Function: A standardized, reusable function retrieved from a Functions Library.
+- _SUBGROUP_: An optional, semantic descriptor in a variable name, required when four or more variables share the same GROUP.
+- Sub-Section Header: A single-line comment for visual separation within a Section Block, not to exceed 80 characters (e.g., ##### SUB-SECTION HEADER #####).
+- UPPER_CASE: The mandatory case for all variable and array names.
