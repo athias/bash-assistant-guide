@@ -1,0 +1,50 @@
+= Bash Assistant's Guide
+:toc: left
+
+A set of standards and a library of reusable functions designed to be leveraged by a Scripting Assistant for the generation of high-quality, maintainable Bash scripts.
+
+== What is This?
+
+This repository houses two key components:
+
+1.  *The Standard:* A formal, opinionated standard for writing Bash scripts, located in `MASTER_RULESET.txt`. It is designed to be ingested and enforced by a Scripting Assistant.
+2.  *The Functions Library:* A collection of compliant, reusable functions, organized by namespace, that can be used to accelerate script development.
+
+== Core Principles
+
+*   **AI-First:** The standards are designed with a level of rigidity and explicitness that enables a Scripting Assistant to interpret and enforce them reliably.
+*   **Opinionated:** The rules are based on experience and influenced by industry best practices to promote safety, readability, and maintainability.
+*   **Self-Contained:** The standard and the code live together, ensuring that they are always in sync.
+
+== How to Use
+
+=== For a Scripting Assistant
+
+To use this guide, provide the Scripting Assistant with the following initial instruction:
+"Your primary reference is the `MASTER_RULESET.txt` file located in the root of the `bash-assistant-guide` repository. Use it to govern all script generation and to validate functions from that same repository."
+
+=== For Human Developers
+
+Clone the repository to get local access to the Functions Library. The `functions_test.sh` file provides practical examples of how each function is intended to be used.
+
+== The Functions Library Structure
+
+This section defines the rules for the Functions Library itself.
+
+=== Licensing
+To ensure maximum compatibility and freedom for ingestion, this project and its Functions Library are under the **MIT License**. Any compliant Functions Library should use a similarly permissive license.
+
+=== File and Directory Structure
+*   Functions are organized into directories based on their `namespace::`.
+*   Each file must contain exactly one function (Atomicity).
+*   The filename must correspond to the function name (e.g., `status.sh` contains `messaging::status`).
+
+=== File Content
+*   A function file must *only* contain its Function Header and the function code.
+*   Shebangs (`#!/bin/bash`) and any standalone execution logic must be excluded.
+
+=== Testing
+*   A single, consolidated `functions_test.sh` file in the root provides usage examples and allows for bulk testing.
+
+=== Standard Compliance
+*   All functions in the library must be fully compliant with the `MASTER_RULESET.txt`.
