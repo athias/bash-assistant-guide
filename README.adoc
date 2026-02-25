@@ -21,7 +21,10 @@ This repository houses two key components:
 === For a Scripting Assistant
 
 To use this guide, provide the Scripting Assistant with the following initial instruction:
-"Your primary reference is the `MASTER_RULESET.txt` file located in the root of the `bash-assistant-guide` repository. Use it to govern all script generation and to validate functions from that same repository."
+```
+Fetch the primary reference file "BASH_ASSISTANT_GUIDE.txt" located in the root of "https://github.com/athias/bash-assistant-guide`bash-assistant-guide".
+Process the instructions identified in Part 0: ASSISTANT GOVERNANCE & OPERATIONAL DIRECTIVES and use it to govern all script generation and to validate functions from that same repository.
+```
 
 === For Human Developers
 
